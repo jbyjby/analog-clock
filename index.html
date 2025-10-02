@@ -48,12 +48,15 @@
                 <!-- 중심점 -->
                 <div class="absolute left-1/2 top-1/2 w-4 h-4 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-30"></div>
 
-                <!-- 분침 -->
+                <!-- 분침 클릭 영역 -->
                 <div
-                    id="minuteHand"
-                    class="absolute left-1/2 bottom-1/2 w-2 bg-blue-600 origin-bottom rounded-t-full cursor-grab active:cursor-grabbing z-10"
-                    style="height: 120px; transform: translateX(-50%) rotate(0deg); transition: transform 0.3s ease;"
-                ></div>
+                    id="minuteHandArea"
+                    class="absolute left-1/2 bottom-1/2 origin-bottom cursor-grab active:cursor-grabbing z-10"
+                    style="width: 40px; height: 140px; transform: translateX(-50%) rotate(0deg); transition: transform 0.3s ease;"
+                >
+                    <!-- 실제 분침 -->
+                    <div class="absolute left-1/2 bottom-0 w-2 h-[120px] bg-blue-600 rounded-t-full transform -translate-x-1/2 pointer-events-none"></div>
+                </div>
 
                 <!-- 시침 -->
                 <div
@@ -84,7 +87,7 @@
 
         const clock = document.getElementById('clock');
         const clockContainer = document.getElementById('clockContainer');
-        const minuteHand = document.getElementById('minuteHand');
+        const minuteHandArea = document.getElementById('minuteHandArea');
         const hourHand = document.getElementById('hourHand');
         const digitalTime = document.getElementById('digitalTime');
         const koreanTime = document.getElementById('koreanTime');
@@ -148,7 +151,7 @@
             const minuteAngle = getMinuteAngle();
             const hourAngle = getHourAngle();
 
-            minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+            minuteHandArea.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
             hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
 
             digitalTime.textContent = `${getDisplayHours()}시 ${getCurrentMins()}분`;
@@ -161,7 +164,7 @@
             isDragging = true;
             lastAngle = getAngleFromMouse(e);
 
-            minuteHand.style.transition = 'none';
+            minuteHandArea.style.transition = 'none';
             hourHand.style.transition = 'none';
             clockContainer.style.cursor = 'grabbing';
         }
@@ -195,7 +198,7 @@
             isDragging = false;
             lastAngle = null;
 
-            minuteHand.style.transition = 'transform 0.3s ease';
+            minuteHandArea.style.transition = 'transform 0.3s ease';
             hourHand.style.transition = 'transform 0.3s ease';
             clockContainer.style.cursor = 'default';
         }
@@ -445,8 +448,8 @@
         }
 
         // 이벤트 리스너
-        minuteHand.addEventListener('mousedown', handleMouseDown);
-        minuteHand.addEventListener('touchstart', handleMouseDown);
+        minuteHandArea.addEventListener('mousedown', handleMouseDown);
+        minuteHandArea.addEventListener('touchstart', handleMouseDown);
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
